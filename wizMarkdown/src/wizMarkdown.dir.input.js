@@ -4,14 +4,11 @@
 	return {
 		restrict: 'E',
 		scope: {
-			content: '=',
-			inputTemplate: '='
+			content: '='
 		},
 		replace: true,
 		transclude: true,
-		template: function($scope) {
-			return $scope.inputTemplate || '<textarea class="markdown-input" ng-model="content"></textarea>';
-		},
+		template: '<textarea class="markdown-input" ng-model="content"></textarea>',
 		link: function (scope, elem, attrs, ctrl) {
 			var editor = new MarkdownDeepEditor.Editor(elem[0], null);
 			editor.onPostUpdateDom = function (editor) {

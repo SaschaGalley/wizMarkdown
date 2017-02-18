@@ -5856,11 +5856,15 @@ angular.module('wiz.markdown')
 		},
 		replace: true,
 		transclude: true,
-		template: '<div class="markdown-editor">' +
-		            '<div class="markdown-toolbar" ng-if="!toolbarBottom" ng-transclude></div>' +
-		            '<textarea class="markdown-input {{textareaclass}}" ng-model="content"></textarea>' +
-		            '<div class="markdown-toolbar" ng-if="toolbarBottom" ng-transclude></div>' +
-		          '</div>',
+		template: ['tElem', 'tAttrs', function(tElem, tAttrs) {
+			console.log(tAttrs);
+			console.log('da');
+			return'<div class="markdown-editor">' +
+      '<div class="markdown-toolbar" ng-if="!toolbarBottom" ng-transclude></div>' +
+				(tAttrs['inputTemplate'] || '<textarea class="markdown-input {{textareaclass}}" ng-model="content"></textarea>') +
+      	'<div class="markdown-toolbar" ng-if="toolbarBottom" ng-transclude></div>' +
+      '</div>';
+    }],
 		controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) { }],
 		link: function (scope, elem, attrs, ctrl) {
 			var editor = new MarkdownDeepEditor.Editor(elem.find('textarea')[0], null);
@@ -5882,14 +5886,11 @@ angular.module('wiz.markdown')
 	return {
 		restrict: 'E',
 		scope: {
-			content: '=',
-			inputTemplate: '='
+			content: '='
 		},
 		replace: true,
 		transclude: true,
-		template: function($scope) {
-			return $scope.inputTemplate || '<textarea class="markdown-input" ng-model="content"></textarea>';
-		},
+		template: '<textarea class="markdown-input" ng-model="content"></textarea>',
 		link: function (scope, elem, attrs, ctrl) {
 			var editor = new MarkdownDeepEditor.Editor(elem[0], null);
 			editor.onPostUpdateDom = function (editor) {
