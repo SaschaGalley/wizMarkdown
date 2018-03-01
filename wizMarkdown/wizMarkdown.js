@@ -5627,7 +5627,7 @@ var MarkdownDeepEditor=new function(){
         if (!ctx.CheckSimpleSelection())
             return false;
             
-        var url=prompt("Enter the target URL:", "https://");
+        var url=prompt("Enter the target URL:", "http://");
         if (url===null)
             return false;
 
